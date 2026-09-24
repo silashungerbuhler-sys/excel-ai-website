@@ -1,15 +1,12 @@
-from flask import Flask, jsonify
+from flask import Flask, jsonify, send_from_directory
+import os
 
 app = Flask(__name__)
 
 
 @app.route("/")
 def home():
-    return jsonify({
-        "status": "online",
-        "app": "Excel AI",
-        "message": "Excel AI Backend läuft."
-    })
+    return send_from_directory(os.path.dirname(os.path.abspath(__file__)), "index.html")
 
 
 @app.route("/health")
@@ -20,4 +17,5 @@ def health():
 
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=10000)
+    port = int(os.environ.get("PORT", 10000))
+    app.run(host="0.0.0.0", port=port)
